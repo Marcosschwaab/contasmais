@@ -8,6 +8,7 @@ gem 'rails', '3.0.9'
 gem 'mysql2', '~> 0.2.6'
 gem 'nifty-generators'
 gem 'devise', '~> 1.2.rc2'
+gem 'brazilian-rails'
 
 # Use unicorn as the web server
 # gem 'unicorn'

@@ -25,7 +25,7 @@
 
   <tr>
     <td><%= entry.description %></td>
-    <td><%= entry.date %></td>
+    <td><%= clean_date entry.date %></td>
     <td><%= number_to_currency_br entry.value %></td>
     <td><%= link_to image_tag ('show.png'), entry %></td>
     <td><%= link_to image_tag ('edit.png'), edit_entry_path(entry) %></td>

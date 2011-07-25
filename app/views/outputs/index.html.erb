@@ -24,7 +24,7 @@
 
   <tr>
     <td><%= output.description %></td>
-    <td><%= output.date %></td>
+    <td><%= clean_date (output.date) %></td>
     <td><%= number_to_currency_br output.value %></td>
     <td><%= link_to image_tag ('show.png'), output %></td>
     <td><%= link_to image_tag ('edit.png'), edit_output_path(output) %></td>
