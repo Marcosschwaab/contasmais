@@ -1,0 +1,180 @@
+
+<h1>Receitas</h1>
+<table>
+  <tr>
+
+	<th><%= form_tag entries_path, :method => 'get' do %>
+<%= select_tag :search, options_for_select(filter_months, :selected => @selected_search) %>
+
+	</th>
+	<th><%= submit_tag "Buscar", :name => nil %>	</th>
+<th>
+	<%= link_to 'Adicionar Receita', new_entry_path %></th>
+<% end %>
+
+  </tr>
+</table>
+<table>
+  <tr>
+    <th>Descrição</th>
+    <th>Data</th>
+    <th>Valor</th>
+  </tr>
+
+<% @entries.each do |entry| %>
+
+  <tr>
+    <td><%= entry.description %></td>
+    <td><%= entry.date %></td>
+    <td><%= number_to_currency_br entry.value %></td>
+    <td><%= link_to image_tag ('show.png'), entry %></td>
+    <td><%= link_to image_tag ('edit.png'), edit_entry_path(entry) %></td>
+    <td><%= link_to image_tag ('delete.png'), entry, :confirm => 'Deseja realmete excluir esta receita?', :method => :delete %></td>
+
+  </tr>
+
+
+
+	<% end %>
+
+	</table>
+	<br />
+
+<% @total_dia_receita = Entry.sum :value, :conditions => ["(date) < ? ", Date.today]%>
+<% @total_dia_receita_hoje = Entry.sum :value, :conditions => ["(date) <= ? ", Date.today]%>
+<% @total_dia_despesa_hoje = Output.sum :value, :conditions => ["(date) <= ? ", Date.today]%>
+<% @total_dia_despesa = Output.sum :value, :conditions => ["(date) > ? ", Date.today]%>
+	<div id="total1"> Saldo Bancário de Hoje: <a><%= number_to_currency_br @total_dia_receita_hoje - @total_dia_despesa_hoje%></a></div>
+	
+	<% @total_dia_receita = Entry.sum :value, :conditions => ["(date) > ? ", Date.today]%>
+		<div id="receita"> Tem para receber ainda: <a><%= number_to_currency_br @total_dia_receita%></a></div>
+		
+		<% @total_dia_receita = Output.sum :value, :conditions => ["(date) > ? ", Date.today]%>
+			<div id="despesas"> Despesas futuras: <a><%= number_to_currency_br @total_dia_despesa%></a></div>
+
+
+
+	
+
+	<div id="receitas">Receitas Total <a><%= number_to_currency_br entry = Entry.sum(:value) %></a></div>
+	<div id="despesas">Despesas Total <a><%= number_to_currency_br output = Output.sum(:value) %></a></div>
+	
+	
+	<% if (entry - output) > 0 %>
+	<div id="total1"> Saldo Total <a><%= number_to_currency_br (entry - output)  %></a></div>
+	<% else %>
+	<div id="total2"> Saldo Total <a><%= number_to_currency_br (entry - output)  %></a></div>
+	<% end %>
+	
+	
+
+	
+	
+	
+
+
+
+		<caption>Balanço de receitas no ano de <%= Date.today.year%></caption>
+<table>
+			<tr>
+				<th>Jan</th>
+				<th>Fev</th>
+				<th>Mar</th>
+				<th>Abr</th>
+				<th>Mai</th>
+				<th>Jun</th>
+				<th>Jul</th>
+				<th>Ago</th>
+				<th>Set</th>
+				<th>Out</th>
+				<th>Nov</th>
+				<th>Dez</th>
+			</tr>
+
+			<tbody>
+			<tr>
+				<td><% @total_01 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '01',Date.today.year]%><%= number_to_currency_br @total_01%></td>
+				<td><% @total_02 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '02',Date.today.year]%><%= number_to_currency_br @total_02%></td>
+				<td><% @total_03 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '03',Date.today.year]%><%= number_to_currency_br @total_03%></td>
+				<td><% @total_04 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '04',Date.today.year]%><%= number_to_currency_br @total_04%></td>
+				<td><% @total_05 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '05',Date.today.year]%><%= number_to_currency_br @total_05%></td>
+				<td><% @total_06 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?",
+'06', Date.today.year]%><%= number_to_currency_br @total_06%></td>
+				<td><% @total_07 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '07',Date.today.year]%><%= number_to_currency_br @total_07%></td>
+				<td><% @total_08 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '08',Date.today.year]%><%= number_to_currency_br @total_08%></td>
+				<td><% @total_09 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '09',Date.today.year]%><%= number_to_currency_br @total_09%></td>
+				<td><% @total_10 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '10',Date.today.year]%><%= number_to_currency_br @total_10%></td>
+				<td><% @total_11 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '11',Date.today.year]%><%= number_to_currency_br @total_11%></td>
+				<td><% @total_12 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '12',Date.today.year]%><%= number_to_currency_br @total_12%></td>
+	
+			</tr>
+		</tbody>
+	</table>
+	
+	
+
+
+		<%= javascript_include_tag 'jquery.min' %>
+
+		<%= javascript_include_tag 'jquery.gvChart-1.0.min' %>
+		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+
+		<script type="text/javascript">
+
+		gvChartInit();
+		jQuery(document).ready(function(){
+
+			
+			jQuery('#myTable5').gvChart({
+				chartType: 'PieChart',
+				gvSettings: {
+					vAxis: {title: 'No of players'},
+					hAxis: {title: 'Month'},
+					width: 720,
+					height: 300,
+					}
+			});
+		});
+		</script>
+
+			
+
+			<table id='myTable5'>
+				<caption>Gráfico de Receitas <%= Date.today.year%></caption>
+				<thead>
+					<tr>
+						<th></th>
+						<th>Janeiro</th>
+						<th>Fevereiro</th>
+						<th>Março</th>
+						<th>Abril</th>
+						<th>Maio</th>
+						<th>Junho</th>
+						<th>Julho</th>
+						<th>Agosto</th>
+						<th>Setembro</th>
+						<th>Outubro</th>
+						<th>Novembro</th>
+						<th>Dezembro</th>
+					</tr>
+				</thead>
+					<tbody>
+					<tr>
+						<th><%= Date.today.year%></th>
+						<td><% @total_01 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '01',Date.today.year]%><%= @total_01%></td>
+						<td><% @total_02 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '02',Date.today.year]%><%=  @total_02%></td>
+						<td><% @total_03 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '03',Date.today.year]%><%=  @total_03%></td>
+						<td><% @total_04 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '04',Date.today.year]%><%=  @total_04%></td>
+						<td><% @total_05 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '05',Date.today.year]%><%=  @total_05%></td>
+						<td><% @total_06 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '06',Date.today.year]%><%=  @total_06%></td>
+						<td><% @total_07 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '07',Date.today.year]%><%=  @total_07%></td>
+						<td><% @total_08 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '08',Date.today.year]%><%=  @total_08%></td>
+						<td><% @total_09 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '09',Date.today.year]%><%=  @total_09%></td>
+						<td><% @total_10 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '10',Date.today.year]%><%=  @total_10%></td>
+						<td><% @total_11 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '11',Date.today.year]%><%=  @total_11%></td>
+						<td><% @total_12 = Entry.sum :value, :conditions => ["MONTH(date) = ? AND YEAR(date) =?", '12',Date.today.year]%><%=  @total_12%></td>
+					</tr>
+				</tbody>
+			</table>
+
+	

@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  description: MyString
+  os: MyString
+  value: 9.99
+
+two:
+  description: MyString
+  os: MyString
+  value: 9.99

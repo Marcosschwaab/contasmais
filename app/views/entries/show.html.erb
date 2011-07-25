@@ -1,0 +1,17 @@
+
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Description:</b>
+  <%= @entry.description %>
+</p>
+
+
+<p>
+  <b>Value:</b>
+  <%= @entry.value %>
+</p>
+
+
+<%= link_to 'Editar', edit_entry_path(@entry) %> |
+<%= link_to 'Voltar', entries_path %>
